@@ -289,6 +289,18 @@ app.delete('/api/avistamientos/:avistamientoId/imagenes/:imagenId', async (req, 
     }
 });
 
+app.get('/', (req, res) => {
+    const htmlResponse = `
+    <html>
+        <head>
+        <title>Inicio</title>
+        </head>
+        <body><h1>Proyecto backend</h1></body>
+    </html>
+    `;
+    res.send(htmlResponse);
+});
+
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });

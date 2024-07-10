@@ -2,13 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const pool = require('./db');
 const axios = require('axios')
-const tf = require('@tensorflow/tfjs-node');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const multer = require('multer');
-const {spawn} = require('child_process');
-const path = require('path');
 require('dotenv').config();
 
 const app = express();

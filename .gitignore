@@ -1,3 +1,2 @@
-venv/
-entornoPrueba/
 node_modules/
+.vercel

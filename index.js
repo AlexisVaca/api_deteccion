@@ -153,9 +153,21 @@ app.post('/api/login', async (req, res) => {
 //Ruta: /api/usuarios
 app.post('/api/usuarios', async (req, res) => {
     const { nombre, email, contraseña } = req.body;
+    
     try {
-        const { rows } = await pool.query('INSERT INTO usuarios (nombre, email, contraseña) VALUES ($1, $2, $3) RETURNING id, nombre, email, fecha_registro', [nombre, email, contraseña]);
-        res.json(rows[0]);
+        // Genera un hash seguro de la contraseña usando bcrypt
+        const hashedPassword = await bcrypt.hash(contraseña, 10); // 10 es el costo del hash, es decir, la fuerza del hash
+
+        // Inserta el usuario en la base de datos con la contraseña encriptada
+        const { rows } = await pool.query('INSERT INTO usuarios (nombre, email, contraseña) VALUES ($1, $2, $3) RETURNING id, nombre, email, fecha_registro', [nombre, email, hashedPassword]);
+        
+        // Devuelve el usuario creado sin la contraseña
+        res.json({
+            id: rows[0].id,
+            nombre: rows[0].nombre,
+            email: rows[0].email,
+            fecha_registro: rows[0].fecha_registro
+        });
     } catch (err) {
         console.error('Error al crear usuario', err);
         res.status(500).json({ error: 'Error al crear usuario' });
